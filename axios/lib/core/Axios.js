@@ -48,7 +48,7 @@ class Axios {
     config = mergeConfig(this.defaults, config);
 
     const {transitional, paramsSerializer, headers} = config;
-
+    //hrs add  发送请求时校验axios版本，做一些兼容性配置
     if (transitional !== undefined) {
       validator.assertOptions(transitional, {
         silentJSONParsing: validators.transitional(validators.boolean),
@@ -199,5 +199,5 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
   Axios.prototype[method + 'Form'] = generateHTTPMethod(true);
 });
-
+console.log(Axios)
 export default Axios;

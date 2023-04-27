@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./axios.min.js"></script>
+    <script src="./demo.js"></script>
+</head>
+<style>
+.upload-input{
+    opacity: 0;
+    width: 100px;
+    height: 100px;
+}
+.uploadbox{
+    border:1px #333 dashed;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin-left: 80px;
+}
+.uploadbox::before{
+    content: '';
+    width: 1px;
+    height: 50px;
+    background-color: #333;
+    position: absolute;
+    left:calc(50% - 0.5px);
+    top:calc(50% - 25px)
+}
+.uploadbox::after{
+    content: '';
+    width: 50px;
+    height: 1px;
+    background-color: #333;
+    position: absolute;
+    left:calc(50% - 25px);
+    top:calc(50% - 0.5px)
+}
+.uploadprogress{
+    display: flex;
+    margin-top: 16px;
+}
+.progress{
+    margin-left: 14px;
+    margin-top: 2px;
+    width: 100px;
+    height: 16px;
+    border: 1px solid #333;
+    border-radius: 14px;
+}
+#child{
+    width: 100px;
+    height: 16px; 
+    border-radius: 14px;
+}
+.status{
+    margin-left: 1em;
+    color: blue;
+}
+</style>
+
+<body>
+    <div id="app">
+        <p>利用axios的onUploadProgress实现进度条</p>
+        <div class="uploadbox">           
+            <input type="file" class="upload-input" @change="upload" />
+        </div>
+        <div class="uploadprogress">
+            <div>上传进度:</div>
+            <div class="progress">
+                <div id="child"></div>
+            </div>
+            <div class="status" v-if='width==0'>待上传</div>
+            <div class="status" v-else-if="width!=100">{{width}}%</div>
+            <div class="status" v-else>{{fileName}}</div>
+
+
+        </div>
+    </div>  
+    <script >   
+        const {createApp,reactive,ref,toRefs} = Vue;
+        const uploadComposition={
+            setup() {
+                const width=ref(100)
+                const fileName=ref('文件.png')
+                const uploadProgressEvent=function(e){
+                    width.value=Math.floor((e.loaded*100)/e.total)
+                }
+                const upload=function(e){
+                // console.log(e.target.files[0].name,'111')
+                const uploadFile=e.target.files[0]
+                const formData=new FormData()
+                formData.append('file',uploadFile)
+                instance({
+                         url: '/miniProgram/assemblyForward',
+                         method: 'post', 
+                         data:formData,
+                         onUploadProgress:uploadProgressEvent,
+                          }).then(res => {
+
+                                         }) 
+                  fileName.value=e.target.files[0].name
+                }
+                return {
+                    width,fileName,upload
+                }
+                
+            }
+        }
+        const app=createApp(uploadComposition).mount('#app')
+    </script> 
+</body>
+</html>
+
