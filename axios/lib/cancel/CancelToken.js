@@ -117,5 +117,11 @@ class CancelToken {
     };
   }
 }
-
+//测试代码    
+let pending={};
+const fn=new CancelToken(function executor(c){
+  pending.cancelFn=c
+})
+pending.cancelFn()
+console.log(pending)
 export default CancelToken;

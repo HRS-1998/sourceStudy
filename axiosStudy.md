@@ -54,12 +54,26 @@ webpack链接： [webpack官网configuration](https://webpack.js.org/configurati
    -  use   
    -  eject
    -  clear
-   -  forEach
+   -  forEach       
+
 - [Axios](./axios/lib/core/Axios.js) 类
    - request
    - getUri
 在这个页面中：调用[utils.forEach](./axios/lib/utils.js)方法，在Axios的原型链上挂载了methods
 ![Axios类](./images/axios/Axios.png)
+- axios下的几个对象属性
+   - cancel
+     - CanceledError
+       这里主要的是通过[util.inherits](./axios/lib/utils.js)方法，继承Error类
+       ![cancelError](./images/axios/axios_canceError.png)
+     - CancelToken
+      关于CancelToken类的梳理
+      在[axios.js](./axios/lib/axios.js)中当new Axios()时,其中[Axios](./axios/lib/core/Axios.js)类的request方法中调用了[dispatchRequest](./axios/lib/core/dispatchRequest.js),dispatchRequest调用了[adapter.getAdapter](./axios/lib/adapters/adapters.js),其又调用了[xhr.js](./axios/lib/adapters/xhr.js)方法：
+      当请求取消时订阅所有的onCancel事件
+      ![xhr.js的onCancel实现](./images/axios/axios_cancleToken.png)
+       
+     - isCancel
+
 
 
 

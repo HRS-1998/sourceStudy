@@ -200,4 +200,18 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
   Axios.prototype[method + 'Form'] = generateHTTPMethod(true);
 });
 console.log(Axios)
+//测试
+const req=new Axios({})
+req.request({
+  baseURL:'http://62.234.200.132:8088',
+  method:'post',
+  url:'/miniProgram/assemblyForward',
+  data:{data:JSON.stringify({ues_id:'90004488'}),'type':'/user_check'},
+  headers:{
+    token:'_Kd!v0V%-N^_#8*OHo5zz*'
+
+}        
+}).then(res=>{
+
+})
 export default Axios;

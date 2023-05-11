@@ -26,8 +26,9 @@ import HttpStatusCode from './helpers/HttpStatusCode.js';
  */
 function createInstance(defaultConfig) {
   const context = new Axios(defaultConfig);
+  console.log(context.request,'n1')
   const instance = bind(Axios.prototype.request, context);
-
+//instance 是一个wrap()函数，执行结果为: Axios.prototype.request的调用
   // Copy axios.prototype to instance
   utils.extend(instance, Axios.prototype, context, {allOwnKeys: true});
 
@@ -45,11 +46,15 @@ function createInstance(defaultConfig) {
 // Create the default instance to be exported
 const axios = createInstance(defaults);
 
+
+
 // Expose Axios class to allow class inheritance
 axios.Axios = Axios;
 
 // Expose Cancel & CancelToken
 axios.CanceledError = CanceledError;
+
+
 axios.CancelToken = CancelToken;
 axios.isCancel = isCancel;
 axios.VERSION = VERSION;
@@ -82,5 +87,22 @@ axios.HttpStatusCode = HttpStatusCode;
 
 axios.default = axios;
 
+
+//---测试数据 
+/** 测试create 的config合并*/   
+
+let pTest=axios.create({
+  baseUrl:'http://10.25.17.0:8000',
+  timeOut:4000,
+
+
+})
+pTest.Cancel('cancel',defaults,)
+
+
+
+
+
+//----------
 // this module should only have a default export
 export default axios

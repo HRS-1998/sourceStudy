@@ -331,7 +331,7 @@ function merge(/* obj1, obj2, obj3, ... */) {
  * @param {Object} b The object to copy properties from
  * @param {Object} thisArg The object to bind function to
  *
- * @param {Boolean} [allOwnKeys]
+ * @param {Boolean} [allOwnKeys] 
  * @returns {Object} The resulting value of object a
  */
 const extend = (a, b, thisArg, {allOwnKeys}= {}) => {
@@ -340,6 +340,7 @@ const extend = (a, b, thisArg, {allOwnKeys}= {}) => {
       a[key] = bind(val, thisArg);
     } else {
       a[key] = val;
+
     }
   }, {allOwnKeys});
   return a;
@@ -628,9 +629,7 @@ function isSpecCompliantForm(thing) {
 
 const toJSONObject = (obj) => {
   const stack = new Array(10);
-
   const visit = (source, i) => {
-
     if (isObject(source)) {
       if (stack.indexOf(source) >= 0) {
         return;

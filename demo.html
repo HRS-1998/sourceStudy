@@ -62,6 +62,11 @@
     margin-left: 1em;
     color: blue;
 }
+.btn{
+    width: 50px;
+    height: 30px;
+    background: red;
+}
 </style>
 
 <body>
@@ -78,7 +83,8 @@
             <div class="status" v-if='width==0'>待上传</div>
             <div class="status" v-else-if="width!=100">{{width}}%</div>
             <div class="status" v-else>{{fileName}}</div>
-
+          <!-- <input type="button" value="提交" onclick="onSubmit()"> -->
+          <div class="btn" @click="onSubmit_a">提交</div>
 
         </div>
     </div>  
@@ -106,8 +112,27 @@
                                          }) 
                   fileName.value=e.target.files[0].name
                 }
+                const onSubmit_a=function(){
+                    console.log('dianjiyici')
+                    onSubmit()
+                }
+                const onSubmit=
+                    debounce_deep(()=>{
+                    console.log('aaa')
+                    instance({
+                        url:'/miniProgram/assemblyForward',
+                        method:'post',
+                        data:{data:JSON.stringify({'user_id':'90004488'}),'type':'/person_status'}
+                        
+                    }).then((res)=>{
+                        console.log(res.data)
+                    })
+
+                },3000)
+                
+                
                 return {
-                    width,fileName,upload
+                    width,fileName,upload,onSubmit,onSubmit_a
                 }
                 
             }
