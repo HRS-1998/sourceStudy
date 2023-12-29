@@ -8,6 +8,7 @@ import mergeConfig from './mergeConfig.js';
 import buildFullPath from './buildFullPath.js';
 import validator from '../helpers/validator.js';
 import AxiosHeaders from './AxiosHeaders.js';
+import CancelToken from '../cancel/CancelToken.js';
 
 const validators = validator.validators;
 
@@ -199,19 +200,23 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
   Axios.prototype[method + 'Form'] = generateHTTPMethod(true);
 });
-console.log(Axios)
-//测试
-const req=new Axios({})
-req.request({
-  baseURL:'http://62.234.200.132:8088',
-  method:'post',
-  url:'/miniProgram/assemblyForward',
-  data:{data:JSON.stringify({ues_id:'90004488'}),'type':'/user_check'},
-  headers:{
-    token:'_Kd!v0V%-N^_#8*OHo5zz*'
+// console.log(Axios)
+// //测试
+// let pending={}
+// const req=new Axios({})
+// req.request({
+//   baseURL:'http://62.234.200.132:8088',
+//   method:'post',
+//   url:'/miniProgram/assemblyForward',
+//   data:{data:JSON.stringify({ues_id:'90004488'}),'type':'/user_check'},
+//   headers:{
+//     token:'_Kd!v0V%-N^_#8*OHo5zz*'
+//   }, 
+//   CancelToken:new CancelToken((c)=>{
+//     pending.cancelFn=c
+//   }) 
+// }).then(res=>{
 
-}        
-}).then(res=>{
-
-})
+// })
+// if(pending.cancelFn)  pending.cancelFn()
 export default Axios;

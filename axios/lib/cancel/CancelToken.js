@@ -25,7 +25,7 @@ class CancelToken {
 
     // eslint-disable-next-line func-names
     this.promise.then(cancel => {
-      if (!token._listeners) return;
+             if (!token._listeners) return;
 
       let i = token._listeners.length;
 
@@ -117,11 +117,11 @@ class CancelToken {
     };
   }
 }
-//测试代码    
-let pending={};
-const fn=new CancelToken(function executor(c){
-  pending.cancelFn=c
-})
-pending.cancelFn()
-console.log(pending)
+// //测试代码    
+// let pending={};
+// const fn=new CancelToken(function executor(c){
+//   pending.cancelFn=c
+// })
+// pending.cancelFn()
+// console.log(pending)
 export default CancelToken;

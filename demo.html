@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- 引入vue -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="./axios.min.js"></script>
-    <script src="./demo.js"></script>
-</head>
-<style>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- 引入vue -->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="./axios.min.js"></script>
+        <script src="./demo.js"></script>
+    </head>
+    <style>
 .upload-input{
     opacity: 0;
     width: 100px;
@@ -68,27 +68,26 @@
     background: red;
 }
 </style>
-
-<body>
-    <div id="app">
-        <p>利用axios的onUploadProgress实现进度条</p>
-        <div class="uploadbox">           
-            <input type="file" class="upload-input" @change="upload" />
-        </div>
-        <div class="uploadprogress">
-            <div>上传进度:</div>
-            <div class="progress">
-                <div id="child"></div>
+    <body>
+        <div id="app">
+            <p>利用axios的onUploadProgress实现进度条</p>
+            <div class="uploadbox">
+                <input type="file" class="upload-input" @change="upload" />
             </div>
-            <div class="status" v-if='width==0'>待上传</div>
-            <div class="status" v-else-if="width!=100">{{width}}%</div>
-            <div class="status" v-else>{{fileName}}</div>
-          <!-- <input type="button" value="提交" onclick="onSubmit()"> -->
-          <div class="btn" @click="onSubmit_a">提交</div>
+            <div class="uploadprogress">
+                <div>上传进度:</div>
+                <div class="progress">
+                    <div id="child"></div>
+                </div>
+                <div class="status" v-if='width==0'>待上传</div>
+                <div class="status" v-else-if="width!=100">{{width}}%</div>
+                <div class="status" v-else>{{fileName}}</div>
+                <!-- <input type="button" value="提交" onclick="onSubmit()"> -->
+                <div class="btn" @click="onSubmit_a">提交</div>
 
+            </div>
         </div>
-    </div>  
-    <script >   
+        <script>   
         const {createApp,reactive,ref,toRefs} = Vue;
         const uploadComposition={
             setup() {
@@ -130,7 +129,24 @@
 
                 },3000)
                 
-                
+                    function socketConnect(url) {
+                  // 客户端与服务器进行连接
+                  let ws = new WebSocket(url); // 返回`WebSocket`对象，赋值给变量ws
+                  // 连接成功回调
+                  ws.onopen = e => {
+                      console.log('连接成功', e)
+                      ws.send('我发送消息给服务端'); // 客户端与服务器端通信
+                  }
+                  // 监听服务器端返回的信息
+                  ws.onmessage = e => {
+                      console.log('服务器端返回：', e.data)
+                      // do something
+                  }
+                  return ws; // 返回websocket对象
+                }
+                let wsValue = socketConnect('ws://121.40.165.18:8800'); // websocket对象
+                    console.log(wsValue,'11')
+              
                 return {
                     width,fileName,upload,onSubmit,onSubmit_a
                 }
@@ -138,7 +154,6 @@
             }
         }
         const app=createApp(uploadComposition).mount('#app')
-    </script> 
-</body>
+    </script>
+    </body>
 </html>
-

@@ -26,7 +26,7 @@ import HttpStatusCode from './helpers/HttpStatusCode.js';
  */
 function createInstance(defaultConfig) {
   const context = new Axios(defaultConfig);
-  console.log(context.request,'n1')
+  // console.log(context.request,'n1')
   const instance = bind(Axios.prototype.request, context);
 //instance 是一个wrap()函数，执行结果为: Axios.prototype.request的调用
   // Copy axios.prototype to instance
@@ -91,13 +91,40 @@ axios.default = axios;
 //---测试数据 
 /** 测试create 的config合并*/   
 
-let pTest=axios.create({
-  baseUrl:'http://10.25.17.0:8000',
-  timeOut:4000,
+let pending={}
 
+let request=axios.create({
+  baseURL:'http://62.234.200.132:8088',
+  method:'post',
+  url:'/miniProgram/assemblyForward',
+  data:{data:JSON.stringify({ues_id:'90004488'}),'type':'/user_check'},
+  headers:{
+    token:'_Kd!v0V%-N^_#8*OHo5zz*'
+  }, 
+  // cancelToken:new CancelToken((c)=>{
+  //   pending.cancelFn=c
+  // }) 
+})
+request.interceptors.request.use((config)=>{
+  console.log(config,'config')
+  config.headers['data']=1
 
 })
-pTest.Cancel('cancel',defaults,)
+// request.interceptors.request.use((config)=>{
+//   console.log(config,'config')
+
+//   config.headers['data']=2
+
+// })
+request({}).then(res=>{
+  console.log(res.data)
+
+})
+
+// if(pending.cancelFn)  {
+//   console.log('取消触发',pending.cancelFn)
+//   pending.cancelFn()
+// }
 
 
 

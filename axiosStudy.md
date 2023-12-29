@@ -45,7 +45,7 @@ webpack链接： [webpack官网configuration](https://webpack.js.org/configurati
  **webapck.config.js返回config如下**
 ![webpack配置](./images/axios/axios_webpack.png#pic_right=500X200)
 
-###### 在入口index.js中其引用 [lib/axios.js](./axios/lib/axios.js)文件，导出的值按照webpack.config.js配置被打包到了统一库(名字为axios)
+#### 在入口index.js中其引用 [lib/axios.js](./axios/lib/axios.js)文件，导出的值按照webpack.config.js配置被打包到了统一库(名字为axios)
 
 #####类定义
 -  [InterceptorManage](./axios/lib/core/InterceptorManager.js) 类
@@ -73,6 +73,12 @@ webpack链接： [webpack官网configuration](https://webpack.js.org/configurati
       ![xhr.js的onCancel实现](./images/axios/axios_cancleToken.png)
        
      - isCancel
+
+
+##### Axios.prototype.request
+- 判断浏览器环境还是node环境，确定使用xhr.js还是http.js
+   判断方法： 浏览器环境   typeof XMLHttpRequest != 'undefined'
+              node环境     typeof process !== 'undefined' && Object.prototype.toString.call(process)
 
 
 

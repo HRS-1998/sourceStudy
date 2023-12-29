@@ -44,6 +44,22 @@
 // console.log(Object.keys(p),p.prototype)
 
 
-let a=0;
-console.log(!a)
+// let reg=/\+32/
+// console.log(reg.test(32))
+
+// console.log(Object.prototype.toString.call(process))
+
+// let request=new Request('/url',{medthod:'POST'})
+// console.log(request);
+const response = await fetch("/service"),
+  reader = response.body
+    .pipeThrough(new TextDecoderStream())
+    .getReader();
+
+while (true) {
+  const { value, done } = await reader.read();
+  if (done) break;
+  console.log(value);
+}
+
 
